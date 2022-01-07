@@ -1,8 +1,7 @@
 import uWS from 'uWebSockets.js';
-import {execCommand} from './helpers/functions.js';
 import Authentication from "./helpers/authentication.js";
 import jwt from "jsonwebtoken";
-import TestResource from 'resources/test.js';
+import TestResource from './resources/test.js';
 
 const host = '0.0.0.0';
 const port = 80;
@@ -53,11 +52,11 @@ const requestListener = {
 	},
 	message: (ws, message, isBinary) => {
 		const buffer = Buffer.from(message);
-		const request = JSON.parse(buffer.toString());
+		const request = buffer.toString();
 		let ok = ws.send(message, isBinary);
 
         const obj = new TestResource();
-        obj.test(request.params);
+        obj.test(request);
 	}
 };
 

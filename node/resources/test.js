@@ -1,6 +1,6 @@
 class TestResource {
 	async test(params) {
-		console.log(params);
+		return params;
 	}
 }
 
