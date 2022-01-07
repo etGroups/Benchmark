@@ -223,9 +223,34 @@ const hello = {
     }
 };
 
+const db = {
+    upgrade: (res, req, context) => {
+        hostname = req.getHeader('host');
+        wsKey = req.getHeader('sec-websocket-key');
+
+        res.upgrade(
+            {url: req.getUrl()},
+            wsKey,
+            req.getHeader('sec-websocket-protocol'),
+            req.getHeader('sec-websocket-extensions'),
+            context
+        );
+    },
+    message: async (ws, message, isBinary) => {
+        const buffer = Buffer.from(message);
+        // const name = buffer.toString();
+
+        const obj = new TestResource();
+        const response = await obj.getCustomers();
+
+        ws.send(JSON.stringify(response), isBinary);
+    }
+};
+
 const server = uWS.App({})
 	.ws('/*', echo)
 	.ws('/hello', hello)
+    .ws('/db', db)
 	.get('/login', async (res, req) => {
 		await login(res, req)
 	})
