@@ -9,79 +9,59 @@ function isJson(str: string) {
 	}
 }
 
-function getRouteData(req: Request) {
+function route(req: Request) {
 	const server = urlParse(req.url);
-	const appName = server.hostname.replace(/(\.lh|\.pl|api\.)/g, '');
-	const segments = server.pathname.substring(1).split('/');
-	let method = segments.pop();
-	let controller = segments.join('/') ?? '';
-
-	if (!controller) {
-		controller = method ? method : 'index';
-		method = 'index';
-	}
-	method = (method) ? method.toLowerCase() : 'index';
-
-	return {server: server, appName: appName, controller: controller, method: method};
-}
-
-async function getResource(controller: string, isWS: boolean) {
-	const path = isWS ? `common/resources/ws/${controller}.ts` : `common/resources/http/${controller}.ts`;
-	return await import(`./${path}`);
-}
-
-
-async function route(req: Request) {
-	try {
-		const routeData = getRouteData(req);
-		const resource = await getResource(routeData.controller, false);
-		const obj = new resource.default(req, false);
-		return eval(`obj.${routeData.method}()`);
-	} catch (e) {
-		console.log(e);
-		return false;
+	switch (server.pathname) {
+		case '/test': {
+			return new Response('Hello world', {status: 200});
+		}
+		case '/kaka': {
+			return new Response('Hello kaka', {status: 200});
+		}
+		default: {
+			return new Response('Hello deno', {status: 200});
+		}
 	}
 }
 
-async function wsRoute(req: Request, socket: WebSocket) {
-	try {
-		const routeData = getRouteData(req);
-		const resource = await getResource(routeData.controller, true);
-
-		socket.onopen = () => {
-			console.log('WebSocket connection opened')
-		};
-		socket.onmessage = (socketRequest) => {
-			const data = isJson(socketRequest.data);
-			if (!data || !data.method) {
-				socket.send("Data must be a valid JSON");
-				return false;
-			}
-			const obj = new resource.default(req, {socket: socket, socketRequest: socketRequest});
-			return eval(`obj.${data.method}()`);
-		};
-		socket.onclose = () => console.log("WebSocket has been closed.");
-		socket.onerror = (e) => console.error("WebSocket error:", e);
-	} catch (error) {
-		console.log(error);
+async function wsRoute(socket: WebSocket, socketRequest: MessageEvent) {
+	const data = isJson(socketRequest.data);
+	if (!data || !data.method) {
+		socket.send("Data must be a valid JSON");
 		return false;
+	}
+	switch (data.method) {
+		case '/test': {
+			socket.send("Hello world");
+			break;
+		}
+		case '/kaka': {
+			socket.send("Helo kaka");
+			break;
+		}
+		default: {
+			socket.send("Hello deno");
+			break;
+		}
 	}
 }
 
 const handler = async (req: Request): Promise<Response> => {
-	const server = urlParse(req.url);
 	const isWS = req.headers.get('upgrade') === 'websocket';
 
 	if (isWS) {
 		const {socket, response} = Deno.upgradeWebSocket(req);
-		await wsRoute(req, socket);
+		socket.onopen = () => {
+			console.log('WebSocket connection opened')
+		};
+		socket.onmessage = (socketRequest) => {
+			wsRoute(socket, socketRequest);
+		};
+		socket.onclose = () => console.log("WebSocket has been closed.");
+		socket.onerror = (e) => console.error("WebSocket error:", e);
 		return response;
 	} else {
-		if (server.pathname !== '/favicon.ico') {
-			return await route(req);
-		} else {
-			return new Response('Hello world', {status: 200});
-		}
+		return route(req);
 	}
 };
 
