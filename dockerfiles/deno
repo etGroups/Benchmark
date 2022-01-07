@@ -1,0 +1,4 @@
+FROM denoland/deno:alpine
+WORKDIR /home/deno
+USER deno
+CMD deno run --import-map=map.json --allow-net --allow-read index.ts

@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+  php:
+    build:
+      dockerfile: dockerfiles/php
+      context: .
+    restart: always
+    volumes:
+      - ./php:/var/www/
+    ports:
+      - '81:80'
+    env_file:
+      - .env
+  go:
+    build:
+      dockerfile: dockerfiles/go
+      context: .
+    restart: always
+    volumes:
+      - ./go:/home/go
+    ports:
+      - '82:80'
+    env_file:
+      - .env
+  node:
+    build:
+      dockerfile: dockerfiles/node
+      context: .
+    restart: always
+    volumes:
+      - ./node:/home/node/
+    ports:
+      - '83:80'
+    env_file:
+      - .env
+  deno:
+    build:
+      dockerfile: dockerfiles/deno
+      context: .
+    restart: always
+    volumes:
+      - ./deno:/home/deno/
+    ports:
+      - '84:80'
+    env_file:
+      - .env
+  db:
+    image: mariadb:latest
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ~/docker/benchmark:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8081:80"

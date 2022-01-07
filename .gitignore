@@ -1,0 +1,7 @@
+.idea/
+node/.ash_history
+node/.config/
+node/.local/
+node/.npm/
+node/package-lock.json
+node/node_modules

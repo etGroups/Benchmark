@@ -1,0 +1,5 @@
+FROM node:alpine
+WORKDIR /home/node
+RUN apk update && apk upgrade && apk add mc
+RUN apk add --update --no-cache git gcompat gettext
+CMD npm update && npm run start

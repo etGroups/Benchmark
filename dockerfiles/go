@@ -1,0 +1,14 @@
+FROM golang:alpine
+WORKDIR /home/go
+RUN go clean --modcache
+#RUN go mod download
+#RUN CG0_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+#RUN go build ./main.go
+#RUN go get github.com/gofiber/fiber/v2
+#CMD go build ./main.go && ./main
+CMD GO111MODULE=on && \
+    go get github.com/githubnemo/CompileDaemon && \
+    go get github.com/gofiber/fiber/v2 && \
+    go get github.com/gofiber/websocket/v2 && \
+    CompileDaemon -command="./main"
+#    go run main.go
