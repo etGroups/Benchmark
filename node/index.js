@@ -216,15 +216,15 @@ const hello = {
         const buffer = Buffer.from(message);
         const name = buffer.toString();
 
-        const obj = new TestResource();
-        const response = await obj.test(name);
+        // const obj = new TestResource();
+        // const response = await obj.test(name);
 
-        ws.send(response, isBinary);
+        ws.send('hello world', isBinary);
     }
 };
 
 const server = uWS.App({})
-	.ws('/echo', echo)
+	.ws('/*', echo)
 	.ws('/hello', hello)
 	.get('/login', async (res, req) => {
 		await login(res, req)
