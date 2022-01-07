@@ -1,7 +1,7 @@
 import uWS from 'uWebSockets.js';
-import {execCommand} from './helpers/functions.js';
 import Authentication from "./helpers/authentication.js";
 import jwt from "jsonwebtoken";
+import TestResource from './resources/test.js';
 
 const host = '0.0.0.0';
 const port = 80;
@@ -36,28 +36,6 @@ function authMiddleware(res, req, routeMethod) {
 		routeMethod(res, req);
 	});
 }
-
-const requestListener = {
-	upgrade: (res, req, context) => {
-		hostname = req.getHeader('host');
-		wsKey = req.getHeader('sec-websocket-key');
-
-		res.upgrade(
-			{url: req.getUrl()},
-			wsKey,
-			req.getHeader('sec-websocket-protocol'),
-			req.getHeader('sec-websocket-extensions'),
-			context
-		);
-	},
-	message: (ws, message, isBinary) => {
-		const buffer = Buffer.from(message);
-		const request = JSON.parse(buffer.toString());
-		let ok = ws.send(message, isBinary);
-
-		execCommand(request);
-	}
-};
 
 function cors(res, req) {
 	res.writeHeader('Access-Control-Allow-Origin', '*');
@@ -201,8 +179,53 @@ async function refreshToken(res, req) {
 	res.end(newToken);
 }
 
+const echo = {
+    upgrade: (res, req, context) => {
+        hostname = req.getHeader('host');
+        wsKey = req.getHeader('sec-websocket-key');
+
+        res.upgrade(
+            {url: req.getUrl()},
+            wsKey,
+            req.getHeader('sec-websocket-protocol'),
+            req.getHeader('sec-websocket-extensions'),
+            context
+        );
+    },
+    message: (ws, message, isBinary) => {
+        const buffer = Buffer.from(message);
+        const request = buffer.toString();
+        let ok = ws.send(message, isBinary);
+    }
+};
+
+const hello = {
+    upgrade: (res, req, context) => {
+        hostname = req.getHeader('host');
+        wsKey = req.getHeader('sec-websocket-key');
+
+        res.upgrade(
+            {url: req.getUrl()},
+            wsKey,
+            req.getHeader('sec-websocket-protocol'),
+            req.getHeader('sec-websocket-extensions'),
+            context
+        );
+    },
+    message: async (ws, message, isBinary) => {
+        const buffer = Buffer.from(message);
+        const name = buffer.toString();
+
+        const obj = new TestResource();
+        const response = await obj.test(name);
+
+        ws.send(response, isBinary);
+    }
+};
+
 const server = uWS.App({})
-	.ws('/*', requestListener)
+	.ws('/echo', echo)
+	.ws('/hello', hello)
 	.get('/login', async (res, req) => {
 		await login(res, req)
 	})
