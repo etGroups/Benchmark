@@ -1,6 +1,6 @@
 class TestResource {
-	async test(params) {
-		return params;
+	async test(name) {
+		return `Hello ${name}`;
 	}
 }
 
