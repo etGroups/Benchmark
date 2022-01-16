@@ -11,7 +11,7 @@ import (
 )
 
 func dbConn() (db *sql.DB) {
-    db, err := sql.Open("mysql", "root:secret@db/general")
+    db, err := sql.Open("mysql", "root:secret@(db)/general")
     if err != nil {
         panic(err.Error())
     }
