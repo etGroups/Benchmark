@@ -8,7 +8,9 @@ require (
 	github.com/fatih/color v1.9.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/githubnemo/CompileDaemon v1.4.0 // indirect
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gofiber/fiber/v2 v2.24.0 // indirect
+	github.com/gofiber/storage/mysql v0.0.0-20220110080530-864b9a01e0b4 // indirect
 	github.com/gofiber/websocket/v2 v2.0.15 // indirect
 	github.com/klauspost/compress v1.13.4 // indirect
 	github.com/mattn/go-colorable v0.1.4 // indirect

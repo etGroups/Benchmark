@@ -9,9 +9,14 @@ github.com/fsnotify/fsnotify v1.4.9 h1:hsms1Qyu0jgnwNXIxa+/V/PDsU6CfLf6CNO8H7IWo
 github.com/fsnotify/fsnotify v1.4.9/go.mod h1:znqG4EE+3YCdAaPaxE2ZRY/06pZUdp0tY4IgpuI1SZQ=
 github.com/githubnemo/CompileDaemon v1.4.0 h1:z96Qu4tj+RzRfF+L7f1O6E8ion5JQlisWeXWc2wzwDQ=
 github.com/githubnemo/CompileDaemon v1.4.0/go.mod h1:/G125r3YBIp6rcXtCZfiEHwFzcl7GSsNSwylxSNrkMA=
+github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfCHuOE=
+github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/gofiber/fiber/v2 v2.22.0/go.mod h1:MR1usVH3JHYRyQwMe2eZXRSZHRX38fkV+A7CPB+DlDQ=
 github.com/gofiber/fiber/v2 v2.24.0 h1:18rpLoQMJBVlLtX/PwgHj3hIxPSeWfN1YeDJ2lEnzjU=
 github.com/gofiber/fiber/v2 v2.24.0/go.mod h1:MR1usVH3JHYRyQwMe2eZXRSZHRX38fkV+A7CPB+DlDQ=
+github.com/gofiber/storage/mysql v0.0.0-20220110080530-864b9a01e0b4 h1:GS+VkNeH38hL8c2IZ6vSV24/i8EoHI9GKPCa0/T+9Xk=
+github.com/gofiber/storage/mysql v0.0.0-20220110080530-864b9a01e0b4/go.mod h1:We6ky6rxW64XHR6FN2yH0y4u6D7JLQNtFiUWmuvWp6U=
+github.com/gofiber/utils v0.1.2/go.mod h1:pacRFtghAE3UoknMOUiXh2Io/nLWSUHtQCi/3QASsOc=
 github.com/gofiber/websocket/v2 v2.0.13/go.mod h1:Ee9fDQTn+r3z0aFhXCUs+kQ8SqtMq6VNivMRAiouKSk=
 github.com/gofiber/websocket/v2 v2.0.15 h1:ucCrHNlTGWgxIQeEsp3LujDCs/gtGRR96DyzFP8JAE0=
 github.com/gofiber/websocket/v2 v2.0.15/go.mod h1:GlTUuZyhNPeJj96x8q6jmZ/lElfzwBk8LMJwo4Jqc5Q=
