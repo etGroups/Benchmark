@@ -2,7 +2,7 @@ package main
 
 import (
     "log"
-//     "time"
+    "time"
     "encoding/json"
     "github.com/gofiber/fiber/v2"
     "github.com/gofiber/websocket/v2"
@@ -30,9 +30,9 @@ func dbConn() (db *sql.DB) {
     if err != nil {
         panic(err.Error())
     }
-//     db.SetConnMaxLifetime(time.Minute * 3)
-//     db.SetMaxOpenConns(10)
-//     db.SetMaxIdleConns(10)
+    db.SetConnMaxLifetime(time.Minute * 3)
+    db.SetMaxOpenConns(10)
+    db.SetMaxIdleConns(10)
 
     return db
 }
@@ -60,8 +60,12 @@ func main() {
         customer := Customer{}
         results := []Customer{}
         for rows.Next() {
-            var cust_name string
-            err = rows.Scan(&cust_name)
+            var grade int
+            var cust_code, cust_name, cust_city, working_area, cust_country, phone_no, agent_code string
+            var opening_amt, receive_amt, payment_amt, outstanding_amt float32
+
+            err = rows.Scan(&cust_code, &cust_name, &cust_city, &working_area, &cust_country, &grade, &opening_amt,
+                            &receive_amt, &payment_amt, &outstanding_amt, &phone_no, &agent_code)
             if err != nil {
                 panic(err.Error())
             }
@@ -69,7 +73,6 @@ func main() {
             results = append(results, customer)
         }
 
-        log.Printf("result: ", results)
         bytes, err := json.Marshal(results)
         if err != nil {
             panic(err)
