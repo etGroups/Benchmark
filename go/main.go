@@ -10,6 +10,21 @@ import (
     "database/sql"
 )
 
+type Customer struct {
+    Cust_code       string
+    Cust_name       string
+    Cust_city       string
+    Working_area    string
+    Cust_country    string
+    Grade           int
+    Opening_amt     float32
+    Receive_amt     float32
+    Payment_amt     float32
+    Outstanding_amt float32
+    Phone_no        string
+    Agent_code      string
+}
+
 func dbConn() (db *sql.DB) {
     db, err := sql.Open("mysql", "root:secret@(db)/general")
     if err != nil {
@@ -37,11 +52,25 @@ func main() {
     app.Get("/db", websocket.New(func(c *websocket.Conn) {
         log.Printf("start")
         db := dbConn()
-        result, err := db.Query("SELECT * FROM CUSTOMER LIMIT 10")
+        rows, err := db.Query("SELECT * FROM CUSTOMER LIMIT 10")
         if err != nil {
             panic(err.Error())
         }
-        bytes, err := json.Marshal(result)
+
+        customer := Customer{}
+        results := []Customer{}
+        for rows.Next() {
+            var cust_name string
+            err = rows.Scan(&cust_name)
+            if err != nil {
+                panic(err.Error())
+            }
+            customer.Cust_name = cust_name
+            results = append(results, customer)
+        }
+
+        log.Printf("result: ", results)
+        bytes, err := json.Marshal(results)
         if err != nil {
             panic(err)
         }
