@@ -3,6 +3,7 @@ package main
 import (
     "log"
     "time"
+    "strconv"
     "encoding/json"
     "github.com/gofiber/fiber/v2"
     "github.com/gofiber/websocket/v2"
@@ -37,6 +38,42 @@ func dbConn() (db *sql.DB) {
     return db
 }
 
+func getCustomers(limit int) ([]byte) {
+    if limit == 0 {
+        limit = 10
+    }
+
+    db := dbConn()
+    rows, err := db.Query("SELECT * FROM CUSTOMER LIMIT "+strconv.Itoa(limit))
+    if err != nil {
+        panic(err.Error())
+    }
+
+    customer := Customer{}
+    results := []Customer{}
+    for rows.Next() {
+        var grade int
+        var cust_code, cust_name, cust_city, working_area, cust_country, phone_no, agent_code string
+        var opening_amt, receive_amt, payment_amt, outstanding_amt float32
+
+        err = rows.Scan(&cust_code, &cust_name, &cust_city, &working_area, &cust_country, &grade, &opening_amt,
+                        &receive_amt, &payment_amt, &outstanding_amt, &phone_no, &agent_code)
+        if err != nil {
+            panic(err.Error())
+        }
+        customer.Cust_name = cust_name
+        results = append(results, customer)
+    }
+
+    bytes, err := json.Marshal(results)
+    if err != nil {
+        panic(err)
+    }
+//     c.WriteMessage(1, bytes)
+    defer db.Close()
+    return bytes
+}
+
 func main() {
     app := fiber.New()
 
@@ -44,12 +81,11 @@ func main() {
         return c.SendString("Hello, World! [GO]")
     })
 
-    app.Get("/hello", websocket.New(func(c *websocket.Conn) {
-        msg := []byte("Hello World")
-        c.WriteMessage(1, msg)
-    }))
+    app.Get("/HelloHTTP", func (c *fiber.Ctx) error {
+        return c.SendString("Hello World")
+    })
 
-    app.Get("/db", websocket.New(func(c *websocket.Conn) {
+    app.Get("/SqlWS", websocket.New(func(c *websocket.Conn) {
         log.Printf("start")
         db := dbConn()
         rows, err := db.Query("SELECT * FROM CUSTOMER LIMIT 10")
@@ -81,6 +117,20 @@ func main() {
         defer db.Close()
     }))
 
+    app.Post("/PongHTTP", func (c *fiber.Ctx) error {
+        payload := struct {
+            msg string `text:"msg"`
+        }{}
+
+        if err := c.BodyParser(&payload); err != nil {
+            return err
+        }
+
+        log.Printf(payload.msg)
+
+        return c.SendString(payload.msg)
+    })
+
     app.Get("/*", websocket.New(func(c *websocket.Conn) {
       for {
         mtype, msg, err := c.ReadMessage()
@@ -90,10 +140,26 @@ func main() {
         log.Printf("Read: %s", msg)
         log.Printf("mtype: %s", mtype)
 
-        err = c.WriteMessage(mtype, msg)
-        if err != nil {
-          break
+        switch string(msg) {
+            case "HelloWS":
+                msg := []byte("Hello World")
+                err := c.WriteMessage(1, msg)
+                if err != nil {
+                  break
+                }
+            case "SqlWS":
+                msg := getCustomers(10)
+                err = c.WriteMessage(mtype, msg)
+                if err != nil {
+                  break
+                }
+            default:
+                err := c.WriteMessage(1, msg)
+                if err != nil {
+                  break
+                }
         }
+
       }
     }))
 
