@@ -119,16 +119,14 @@ func main() {
 
     app.Post("/PongHTTP", func (c *fiber.Ctx) error {
         payload := struct {
-            msg string `text:"msg"`
+            Msg string
         }{}
 
         if err := c.BodyParser(&payload); err != nil {
             return err
         }
 
-        log.Printf(payload.msg)
-
-        return c.SendString(payload.msg)
+        return c.SendString(payload.Msg)
     })
 
     app.Get("/*", websocket.New(func(c *websocket.Conn) {
@@ -137,8 +135,6 @@ func main() {
         if err != nil {
           break
         }
-        log.Printf("Read: %s", msg)
-        log.Printf("mtype: %s", mtype)
 
         switch string(msg) {
             case "HelloWS":
