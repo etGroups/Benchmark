@@ -36,15 +36,15 @@ async function wsRoute(socket: WebSocket, socketRequest: MessageEvent) {
 	}
 	switch (data.method) {
 		case '/HelloWS': {
-			socket.send("Hello world");
+			socket.send('Hello World');
 			break;
 		}
 		case '/PongWS': {
-			socket.send("Hello Pong");
+			socket.send(socketRequest.data);
 			break;
 		}
 		case '/SqlWS': {
-			socket.send("Hello Sql");
+			socket.send(JSON.stringify(await getCustomers()));
 			break;
 		}
 		default: {
