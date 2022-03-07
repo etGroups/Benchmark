@@ -12,11 +12,14 @@ function isJson(str: string) {
 function route(req: Request) {
 	const server = urlParse(req.url);
 	switch (server.pathname) {
-		case '/test': {
-			return new Response('Hello world', {status: 200});
+		case '/HelloHTTP': {
+			return new Response('Hello World', {status: 200});
 		}
-		case '/kaka': {
-			return new Response('Hello kaka', {status: 200});
+		case '/PongHTTP': {
+			return new Response('Hello Pong', {status: 200});
+		}
+		case '/SqlHTTP': {
+			return new Response('Hello Sql', {status: 200});
 		}
 		default: {
 			return new Response('Hello deno', {status: 200});
@@ -31,12 +34,16 @@ async function wsRoute(socket: WebSocket, socketRequest: MessageEvent) {
 		return false;
 	}
 	switch (data.method) {
-		case '/test': {
+		case '/HelloWS': {
 			socket.send("Hello world");
 			break;
 		}
-		case '/kaka': {
-			socket.send("Helo kaka");
+		case '/PongWS': {
+			socket.send("Hello Pong");
+			break;
+		}
+		case '/SqlWS': {
+			socket.send("Hello Sql");
 			break;
 		}
 		default: {
