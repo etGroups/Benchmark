@@ -18,6 +18,6 @@
 		"jsonwebtoken": "^8.5.1",
 		"mysql2": "^2.2.5",
 		"node-fetch": "^2.6.1",
-		"uWebSockets.js": "https://github.com/uNetworking/uWebSockets.js/archive/v20.4.0.tar.gz"
+		"uWebSockets.js": "https://github.com/uNetworking/uWebSockets.js/archive/v20.6.0.tar.gz"
 	}
 }
