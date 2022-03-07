@@ -69,7 +69,7 @@ func getCustomers(limit int) ([]byte) {
     if err != nil {
         panic(err)
     }
-//     c.WriteMessage(1, bytes)
+
     defer db.Close()
     return bytes
 }
