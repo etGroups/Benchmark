@@ -11,7 +11,7 @@ const client = await new Client().connect({
 });
 
 async function getCustomers() {
-	return await client.query(`select * from CUSTOMER`);
+	return await client.query(`select * from CUSTOMER LIMIT 10`);
 }
 
 export {getCustomers};

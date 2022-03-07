@@ -25,7 +25,7 @@ function getCustomers()
 	try {
 		global $db;
 		$customers = [];
-		$sql = "SELECT * FROM `CUSTOMER`";
+		$sql = "SELECT * FROM `CUSTOMER` LIMIT 10";
 		$query = $db->query($sql);
 		while ($customer = $query->fetch(PDO::FETCH_ASSOC)) {
 			$customers[] = $customer;
@@ -63,9 +63,9 @@ $server->on("Request", function(Request $request, Response $response)
 $server->on('Message', function(Server $server, Frame $frame)
 {
 	match ($frame->data) {
-		'/HelloWS' => $server->push($frame->fd, "Hello World"),
-		'/PongWS' =>  $server->push($frame->fd, $frame->data),
-		'/SqlWS' => $server->push($frame->fd, getCustomers()),
+		'HelloWS' => $server->push($frame->fd, "Hello World"),
+		'PongWS' =>  $server->push($frame->fd, $frame->data),
+		'SqlWS' => $server->push($frame->fd, getCustomers()),
 		default => $server->push($frame->fd, "Hello PHP"),
 	};
 });
