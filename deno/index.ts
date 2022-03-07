@@ -1,5 +1,5 @@
-import {urlParse} from "urlParse";
-import {serve} from "server";
+import {urlParse} from "https://deno.land/x/url_parse/mod.ts";
+import {serve} from "https://deno.land/std@0.118.0/http/server.ts";
 
 function isJson(str: string) {
 	try {
