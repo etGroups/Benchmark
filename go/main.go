@@ -52,16 +52,14 @@ func getCustomers(limit int) ([]byte) {
     customer := Customer{}
     results := []Customer{}
     for rows.Next() {
-        var grade int
-        var cust_code, cust_name, cust_city, working_area, cust_country, phone_no, agent_code string
-        var opening_amt, receive_amt, payment_amt, outstanding_amt float32
+        err = rows.Scan(&customer.Cust_code, &customer.Cust_name, &customer.Cust_city, &customer.Working_area,
+            &customer.Cust_country, &customer.Grade, &customer.Opening_amt, &customer.Receive_amt,
+            &customer.Payment_amt, &customer.Outstanding_amt, &customer.Phone_no, &customer.Agent_code)
 
-        err = rows.Scan(&cust_code, &cust_name, &cust_city, &working_area, &cust_country, &grade, &opening_amt,
-                        &receive_amt, &payment_amt, &outstanding_amt, &phone_no, &agent_code)
         if err != nil {
             panic(err.Error())
         }
-        customer.Cust_name = cust_name
+
         results = append(results, customer)
     }
 
@@ -96,16 +94,14 @@ func main() {
         customer := Customer{}
         results := []Customer{}
         for rows.Next() {
-            var grade int
-            var cust_code, cust_name, cust_city, working_area, cust_country, phone_no, agent_code string
-            var opening_amt, receive_amt, payment_amt, outstanding_amt float32
+            err = rows.Scan(&customer.Cust_code, &customer.Cust_name, &customer.Cust_city, &customer.Working_area,
+                        &customer.Cust_country, &customer.Grade, &customer.Opening_amt, &customer.Receive_amt,
+                        &customer.Payment_amt, &customer.Outstanding_amt, &customer.Phone_no, &customer.Agent_code)
 
-            err = rows.Scan(&cust_code, &cust_name, &cust_city, &working_area, &cust_country, &grade, &opening_amt,
-                            &receive_amt, &payment_amt, &outstanding_amt, &phone_no, &agent_code)
             if err != nil {
                 panic(err.Error())
             }
-            customer.Cust_name = cust_name
+
             results = append(results, customer)
         }
 
