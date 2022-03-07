@@ -1,5 +1,5 @@
 import {urlParse} from "https://deno.land/x/url_parse/mod.ts";
-import {serve} from "https://deno.land/std@0.118.0/http/server.ts";
+import {serve} from "https://deno.land/std@0.128.0/http/server.ts";
 import {getCustomers} from './helpers/db.ts';
 
 function isJson(str: string) {
@@ -17,7 +17,7 @@ async function route(req: Request) {
 			return new Response('Hello World', {status: 200});
 		}
 		case '/PongHTTP': {
-			return new Response('Hello Pong', {status: 200});
+			return new Response(await req.text(), {status: 200});
 		}
 		case '/SqlHTTP': {
 			return new Response(JSON.stringify(await getCustomers()), {status: 200});
