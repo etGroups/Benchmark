@@ -5,16 +5,14 @@ use Swoole\Http\Response;
 use Swoole\WebSocket\Frame;
 use Swoole\WebSocket\Server;
 
-$config  = [
-	'host' => 'db',
-	'user' => getenv('MYSQL_ROOT'),
-	'password' => getenv('MYSQL_ROOT_PASSWORD'),
-	'database' => getenv('MYSQL_DATABASE')
-];
-
 function getCustomers()
 {
-	global $config;
+	$config  = [
+		'host' => 'db',
+		'user' => getenv('MYSQL_ROOT'),
+		'password' => getenv('MYSQL_ROOT_PASSWORD'),
+		'database' => getenv('MYSQL_DATABASE')
+	];
 	try {
 		$db = new PDO("mysql:host={$config['host']};dbname={$config['database']};charset=utf8", $config['user'],
 			$config['password'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
