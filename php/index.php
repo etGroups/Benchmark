@@ -5,17 +5,25 @@ use Swoole\Http\Response;
 use Swoole\WebSocket\Frame;
 use Swoole\WebSocket\Server;
 
+$config  = [
+	'host' => 'db',
+	'user' => getenv('MYSQL_ROOT'),
+	'password' => getenv('MYSQL_ROOT_PASSWORD'),
+	'database' => getenv('MYSQL_DATABASE')
+];
+
+try {
+	$db = new PDO("mysql:host={$config['host']};dbname={$config['database']};charset=utf8", $config['user'],
+		$config['password'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+} catch (PDOException $error) {
+	echo $error->getMessage();
+	exit('Database error');
+}
+
 function getCustomers()
 {
-	$config  = [
-		'host' => 'db',
-		'user' => getenv('MYSQL_ROOT'),
-		'password' => getenv('MYSQL_ROOT_PASSWORD'),
-		'database' => getenv('MYSQL_DATABASE')
-	];
 	try {
-		$db = new PDO("mysql:host={$config['host']};dbname={$config['database']};charset=utf8", $config['user'],
-			$config['password'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+		global $db;
 		$customers = [];
 		$sql = "SELECT * FROM `CUSTOMER`";
 		$query = $db->query($sql);
