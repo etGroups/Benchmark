@@ -5,7 +5,7 @@ const env = Deno.env.toObject();
 const client = await new Client().connect({
 	hostname: "db",
 	username: env.MYSQL_ROOT,
-	db: env.MYSQL_DATABASE,
+	db: 'general',
 	password: env.MYSQL_ROOT_PASSWORD,
 	poolSize: 10
 });

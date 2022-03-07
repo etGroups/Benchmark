@@ -9,7 +9,7 @@ $config  = [
 	'host' => 'db',
 	'user' => getenv('MYSQL_ROOT'),
 	'password' => getenv('MYSQL_ROOT_PASSWORD'),
-	'database' => getenv('MYSQL_DATABASE')
+	'database' => 'general'
 ];
 
 try {
