@@ -1,3 +1,4 @@
 FROM openswoole/swoole:4.8.1-php8.1-alpine
+RUN docker-php-ext-install mysqli pdo pdo_mysql opcache
 RUN apk update && apk upgrade && apk add mc
 CMD php index.php
