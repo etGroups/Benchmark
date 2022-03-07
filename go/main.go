@@ -85,7 +85,7 @@ func main() {
         return c.SendString("Hello World")
     })
 
-    app.Get("/SqlWS", websocket.New(func(c *websocket.Conn) {
+    app.Get("/SqlHTTP", func (c *fiber.Ctx) error {
         log.Printf("start")
         db := dbConn()
         rows, err := db.Query("SELECT * FROM CUSTOMER LIMIT 10")
@@ -113,9 +113,10 @@ func main() {
         if err != nil {
             panic(err)
         }
-        c.WriteMessage(1, bytes)
+
         defer db.Close()
-    }))
+        return c.SendString(string(bytes))
+    })
 
     app.Post("/PongHTTP", func (c *fiber.Ctx) error {
         payload := struct {
