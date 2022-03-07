@@ -1,5 +1,6 @@
 import {urlParse} from "https://deno.land/x/url_parse/mod.ts";
 import {serve} from "https://deno.land/std@0.118.0/http/server.ts";
+import {getCustomers} from './helpers/db.ts';
 
 function isJson(str: string) {
 	try {
@@ -9,7 +10,7 @@ function isJson(str: string) {
 	}
 }
 
-function route(req: Request) {
+async function route(req: Request) {
 	const server = urlParse(req.url);
 	switch (server.pathname) {
 		case '/HelloHTTP': {
@@ -19,7 +20,7 @@ function route(req: Request) {
 			return new Response('Hello Pong', {status: 200});
 		}
 		case '/SqlHTTP': {
-			return new Response('Hello Sql', {status: 200});
+			return new Response(JSON.stringify(await getCustomers()), {status: 200});
 		}
 		default: {
 			return new Response('Hello deno', {status: 200});
@@ -68,7 +69,7 @@ const handler = async (req: Request): Promise<Response> => {
 		socket.onerror = (e) => console.error("WebSocket error:", e);
 		return response;
 	} else {
-		return route(req);
+		return await route(req);
 	}
 };
 

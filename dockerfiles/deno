@@ -1,4 +1,4 @@
 FROM denoland/deno:alpine
 WORKDIR /home/deno
 USER deno
-CMD deno run --allow-net --allow-read index.ts
+CMD deno run --allow-env --allow-net --allow-read index.ts
