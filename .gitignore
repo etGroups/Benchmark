@@ -5,3 +5,10 @@ node/.local/
 node/.npm/
 node/package-lock.json
 node/node_modules
+
+nodeFastify/.ash_history
+nodeFastify/.config/
+nodeFastify/.local/
+nodeFastify/.npm/
+nodeFastify/package-lock.json
+nodeFastify/node_modules

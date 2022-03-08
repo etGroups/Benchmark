@@ -53,6 +53,17 @@ services:
       - ~/docker/benchmark:/var/lib/mysql
     ports:
       - "3306:3306"
+  nodefastify:
+    build:
+      dockerfile: dockerfiles/node
+      context: .
+    restart: always
+    volumes:
+      - ./nodeFastify:/home/node/
+    ports:
+      - '85:80'
+    env_file:
+      - .env
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     restart: always

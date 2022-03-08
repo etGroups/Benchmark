@@ -1,0 +1,24 @@
+{
+	"name": "api",
+	"version": "0.0.1",
+	"type": "module",
+	"workspaces": [
+		"src"
+	],
+	"scripts": {
+		"dev": "nodemon index.js",
+		"start": "node index.js"
+	},
+	"dependencies": {
+		"ajv": "^8.8.2",
+		"ajv-formats": "^2.1.1",
+		"ajv-i18n": "^4.2.0",
+		"argon2": "^0.27.2",
+		"cookie": "^0.4.1",
+		"fastify": "^3.27.3",
+		"fastify-websocket": "^4.2.0",
+		"jsonwebtoken": "^8.5.1",
+		"mysql2": "^2.2.5",
+		"node-fetch": "^2.6.1"
+	}
+}
