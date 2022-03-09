@@ -1,5 +1,5 @@
 FROM denoland/deno:alpine
 WORKDIR /home/deno
 USER deno
-#CMD deno run --allow-env --allow-net --allow-read index.ts
-CMD deno compile --allow-env --allow-net --allow-read index.ts && ./deno
+#CMD deno compile --allow-env --allow-net --allow-read index.ts && ./deno
+CMD deno run --allow-env --allow-net --allow-read index.ts
