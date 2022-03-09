@@ -1,9 +1,13 @@
 import fastifyFramework from "fastify";
 import fastify_websocket from "fastify-websocket";
+import fastify_cors from "fastify-cors";
 import CustomerResource from "./resources/customers.js";
 
 const fastify = fastifyFramework()
 fastify.register(fastify_websocket)
+fastify.register(fastify_cors, {
+	// put your options here
+})
 
 fastify.get('/*', {websocket: true}, (con /* SocketStream */, req /* FastifyRequest */) => {
 	con.socket.on('message', async message => {
