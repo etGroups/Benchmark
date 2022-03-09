@@ -7,7 +7,7 @@ fastify.register(fastify_websocket)
 
 fastify.get('/*', {websocket: true}, (con /* SocketStream */, req /* FastifyRequest */) => {
 	con.socket.on('message', async message => {
-		switch (request) {
+		switch (message) {
 			case "HelloWS":
 				con.socket.send("Hello World");
 				break;

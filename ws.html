@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Websocket Tests</title>
+	<meta name="description" content="Websocket Tests">
+	<meta name="author" content="Emil Dworniczak">
+	<meta property="og:title" content="Websocket Tests">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="Websocket Tests">
+	<meta property="og:image" content="image.png">
+
+	<!--  <link rel="icon" href="/favicon.ico">
+	  <link rel="apple-touch-icon" href="/apple-touch-icon.png">-->
+
+</head>
+
+<body>
+<script>
+	const msgLimit = 500000;
+	let inCount = 1;
+	let loopCount = msgLimit;
+	let timestart = 0;
+	let endtime = 0;
+	let socket = new WebSocket("ws://localhost:84");
+	socket.onopen = function (e) {
+		timestart = Date.now();
+		console.log("[open] Connection established");
+		console.log("Sending to server");
+		while (--loopCount) {
+			socket.send("kaka wie co się sprawdzi");
+		}
+		socket.send("close connection");
+	};
+	socket.onmessage = function (event) {
+		// console.log(`[message] Data received from server: ${event.data}`);
+		inCount++;
+		if (inCount == msgLimit) {
+			endtime = Date.now();
+			console.log(timestart, " : ", endtime);
+			console.log("Sum: ", endtime - timestart);
+		}
+	};
+	socket.onclose = function (event) {
+		if (event.wasClean) {
+			console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+		} else {
+			console.log('[close] Connection died');
+		}
+	};
+
+	socket.onerror = function (error) {
+		console.log(`[error] ${error.message}`);
+	};
+</script>
+</body>
+</html>
