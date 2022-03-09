@@ -19,11 +19,11 @@ async function route(req: Request) {
 
 async function wsRoute(socket: WebSocket, socketRequest: MessageEvent) {
 	switch (socketRequest.data) {
-		case '/HelloWS': {
+		case 'HelloWS': {
 			socket.send('Hello World');
 			break;
 		}
-		case '/SqlWS': {
+		case 'SqlWS': {
 			socket.send(JSON.stringify(await getCustomers()));
 			break;
 		}
