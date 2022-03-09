@@ -44,15 +44,6 @@ services:
       - '84:80'
     env_file:
       - .env
-  db:
-    image: mariadb:latest
-    restart: always
-    env_file:
-      - .env
-    volumes:
-      - ~/docker/benchmark:/var/lib/mysql
-    ports:
-      - "3306:3306"
   nodefastify:
     build:
       dockerfile: dockerfiles/node
@@ -64,6 +55,15 @@ services:
       - '85:80'
     env_file:
       - .env
+  db:
+    image: mariadb:latest
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ~/docker/benchmark:/var/lib/mysql
+    ports:
+      - "3306:3306"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     restart: always
