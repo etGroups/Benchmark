@@ -19,29 +19,30 @@
 
 <body>
 <script>
-	const msgLimit = 500000;
-	let inCount = 1;
-	let loopCount = msgLimit;
+	let inCount = 0;
 	let timestart = 0;
 	let endtime = 0;
-	let socket = new WebSocket("ws://localhost:84");
+    const address = 'ws://localhost:83';
+    const message = 'SqlWS';
+    console.log("address: ", address);
+	let socket = new WebSocket(address);
 	socket.onopen = function (e) {
 		timestart = Date.now();
 		console.log("[open] Connection established");
 		console.log("Sending to server");
-		while (--loopCount) {
-			socket.send("kaka wie co się sprawdzi");
-		}
-		socket.send("close connection");
+        socket.send(message);
 	};
 	socket.onmessage = function (event) {
 		// console.log(`[message] Data received from server: ${event.data}`);
-		inCount++;
-		if (inCount == msgLimit) {
-			endtime = Date.now();
-			console.log(timestart, " : ", endtime);
-			console.log("Sum: ", endtime - timestart);
+		++inCount;
+        endtime = Date.now();
+        let time = endtime - timestart;
+		if (time >= 30000) {
+			console.log(timestart, " : ", endtime, " = ", time);
+            console.log("queries served: ", inCount);
+            return;
 		}
+        socket.send(message);
 	};
 	socket.onclose = function (event) {
 		if (event.wasClean) {
@@ -50,7 +51,6 @@
 			console.log('[close] Connection died');
 		}
 	};
-
 	socket.onerror = function (error) {
 		console.log(`[error] ${error.message}`);
 	};
