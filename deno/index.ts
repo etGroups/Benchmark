@@ -4,15 +4,21 @@ import {getCustomers} from './helpers/db.ts';
 
 async function route(req: Request) {
 	const server = urlParse(req.url);
+    let headers = {
+        status: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        }
+    };
 	switch (server.pathname) {
 		case '/HelloHTTP': {
-			return new Response('Hello World', {status: 200});
+			return new Response('Hello World', headers);
 		}
 		case '/SqlHTTP': {
-			return new Response(JSON.stringify(await getCustomers()), {status: 200});
+			return new Response(JSON.stringify(await getCustomers()), headers);
 		}
 		default: {
-			return new Response(await req.text(), {status: 200});
+			return new Response(await req.text(), headers);
 		}
 	}
 }
