@@ -16,8 +16,8 @@
 		"argon2": "^0.27.2",
 		"cookie": "^0.4.1",
 		"fastify": "^3.27.3",
-		"fastify-cors": "^6.0.3",
-		"fastify-websocket": "^4.2.0",
+		"@fastify/cors": "^7.0.0",
+		"@fastify/websocket": "^5.0.0",
 		"jsonwebtoken": "^8.5.1",
 		"mysql2": "^2.2.5",
 		"node-fetch": "^2.6.1"
