@@ -51,12 +51,13 @@ $server->on('Open', function(Server $server, Request $request)
 
 $server->on("Request", function(Request $request, Response $response)
 {
-	$response->header("Content-Type", "text/plain");
+	$response->header('Content-Type', 'text/plain');
+    $response->header('Access-Control-Allow-Origin', '*');
 	match ($request->server['request_uri']) {
-		'/HelloHTTP' => $response->end("Hello World"),
+		'/HelloHTTP' => $response->end('Hello World'),
 		'/PongHTTP' =>  $response->end($request->getContent()),
 		'/SqlHTTP' => $response->end(getCustomers()),
-		default => $response->end("Hello PHP"),
+		default => $response->end('Hello PHP'),
 	};
 });
 
