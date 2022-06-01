@@ -86,8 +86,17 @@
 		};
 	}
 
-	// sendMessageWS("Pong", 'ws://localhost:85');
-	sendMessagePONGHTTP('http://localhost:85/PongHTTP', "Pong");
+    // sendMessagePONGHTTP('http://0.0.0.0:81/PongHTTP', "Pong");   //Swoole
+    // sendMessagePONGHTTP('http://0.0.0.0:82/PongHTTP', "Pong");   //Fiber
+    // sendMessagePONGHTTP('http://0.0.0.0:83/PongHTTP', "Pong");   //uWS
+    // sendMessagePONGHTTP('http://0.0.0.0:84/PongHTTP', "Pong");   //Deno
+    // sendMessagePONGHTTP('http://0.0.0.0:85/PongHTTP', "Pong");   //Fastify
+
+    // sendMessageWS("Pong", 'ws://localhost:81');                  //Swoole
+    // sendMessageWS("Pong", 'ws://localhost:82/ws');               //Fiber
+    // sendMessageWS("Pong", 'ws://localhost:83');                  //uWS
+    // sendMessageWS("Pong", 'ws://localhost:84');                  //Deno
+    // sendMessageWS("Pong", 'ws://localhost:85');                  //Fastify
 </script>
 </body>
 </html>
