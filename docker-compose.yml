@@ -62,6 +62,7 @@ services:
       - .env
     volumes:
       - ~/docker/benchmark:/var/lib/mysql
+      - ./db.cnf:/etc/mysql/conf.d/custom.cnf
     ports:
       - "3306:3306"
   phpmyadmin:
