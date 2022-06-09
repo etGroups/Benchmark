@@ -1,5 +1,5 @@
 import {urlParse} from "https://deno.land/x/url_parse/mod.ts";
-import {serve} from "https://deno.land/std@0.128.0/http/server.ts";
+import {serve} from "https://deno.land/std@0.142.0/http/server.ts";
 import {getCustomers} from './helpers/db.ts';
 
 async function route(req: Request) {

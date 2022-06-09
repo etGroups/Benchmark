@@ -119,14 +119,14 @@ func main() {
 
     app.Post("/PongHTTP", func (c *fiber.Ctx) error {
         payload := struct {
-            Msg string
+            Key string `json:"key" xml:"key" form:"key"`
         }{}
 
         if err := c.BodyParser(&payload); err != nil {
             return err
         }
 
-        return c.SendString(payload.Msg)
+        return c.JSON(payload)
     })
 
     app.Get("/*", websocket.New(func(c *websocket.Conn) {
