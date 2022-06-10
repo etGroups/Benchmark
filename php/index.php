@@ -4,6 +4,7 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\WebSocket\Frame;
 use Swoole\WebSocket\Server;
+require 'ConnectionManagerPDO.php';
 
 $config  = [
 	'host' => 'db',
@@ -12,12 +13,8 @@ $config  = [
 	'database' => 'general'
 ];
 
-try {
-	$db = new PDO("mysql:host={$config['host']};dbname={$config['database']};charset=utf8", $config['user'],
-		$config['password'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING]);
-} catch (PDOException $error) {
-	echo $error->getMessage();
-}
+$db = new ConnectionManagerPDO("mysql:host={$config['host']};dbname={$config['database']}", $config['user'],
+	$config['password']);
 
 function getCustomers()
 {
