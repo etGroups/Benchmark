@@ -17,7 +17,6 @@ try {
 		$config['password'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING]);
 } catch (PDOException $error) {
 	echo $error->getMessage();
-	exit('Database error');
 }
 
 function getCustomers()
@@ -33,7 +32,6 @@ function getCustomers()
 		return json_encode($customers);
 	} catch (PDOException $error) {
 		echo $error->getMessage();
-		exit('Database error');
 	}
 }
 
